@@ -1,17 +1,23 @@
-FROM node:18-alpine AS builder
+FROM python:3.11-alpine AS builder
 
 WORKDIR /app
 
-COPY app/package.json ./
-RUN npm install
+RUN apk add --no-cache gcc musl-dev libffi-dev
+
+RUN python -m ensurepip && \
+    pip install --upgrade pip
+
+COPY app/requirements.txt ./
+RUN pip install --prefix=/install -r requirements.txt
 
 COPY app/ .
 
-FROM node:18-alpine
+FROM python:3.11-alpine
 
 WORKDIR /app
 
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/index.js ./
+COPY --from=builder /install /usr/local
 
-CMD ["node", "index.js"]
+COPY --from=builder /app ./
+
+CMD ["python", "index.py"]
