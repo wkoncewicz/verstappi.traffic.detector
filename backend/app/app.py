@@ -6,7 +6,7 @@ CORS(app)
 
 @app.route('/message', methods=['GET'])
 def message():
-    return jsonify({"message": "Hello world"}), 200
+    return jsonify({"message": "Don't honk in the woods"}), 200
 
 if __name__ == '__main__':
     app.run(port=5000)
