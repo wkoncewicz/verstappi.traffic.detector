@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-const url = process.env.REACT_APP_BACKEND_URL;
+const url = "http://localhost:5000";
 
 function Page() {
     const [message, setMessage] = useState("");
