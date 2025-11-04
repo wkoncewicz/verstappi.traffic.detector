@@ -1,3 +1,5 @@
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,7 +18,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: wiktorkapusniak/team_projekt_kkk_frontend:latest
+          image: underwoodsteam/prod-frontend:latest
           ports:
             - containerPort: 3000
           env:
