@@ -8,15 +8,26 @@ on:
 
 jobs:
   build:
-    env:
-      END: ${{ matrix.end }}
-      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-      DEPLOYMENT: prod
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        end: ['frontend', 'backend']
+        component: ['frontend', 'backend']
     steps:
       - uses: actions/checkout@v4
-      - name: Build with Make
-        run: make build
+      - name: Create ssh key
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_PRIVATE_KEY" > ../private.key
+          sudo chmod 600 ../private.key
+          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+        shell: bash
+
+      - name: Deploy with Make
+        run: make deploy
+    env:
+      COMPONENT: ${{ matrix.component }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      DEPLOYMENT: prod
+      SSH_KEY_PATH: ${{ github.workspace }}/../private.key
+      SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+      SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
