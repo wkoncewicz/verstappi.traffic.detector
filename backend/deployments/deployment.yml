@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: underwoodsteam/dev-backend:latest
+          image: underwoodsteam/prod-backend:latest
           ports:
             - containerPort: 5000
           env:
