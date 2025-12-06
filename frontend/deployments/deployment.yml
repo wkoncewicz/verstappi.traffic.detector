@@ -26,6 +26,7 @@ spec:
               value: "http://backend-service:5000"
         - name: keycloak
           image: quay.io/keycloak/keycloak:26.4.6
+          args: ['start-dev']
           ports:
             - containerPort: 8080
           env:
