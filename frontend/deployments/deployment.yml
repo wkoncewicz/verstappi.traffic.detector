@@ -24,12 +24,19 @@ spec:
           env:
             - name: NEXT_PUBLIC_API_URL
               value: "http://backend-service:5000"
-        # - name: keycloak
-        #   image: quay.io/keycloak/keycloak:26.4.6
-        #   ports:
-        #     - containerPort: 8080
-        #   env:
-        #     - name: KC_BOOTSTRAP_ADMIN_USERNAME
-        #       value: "admin"
-        #     - name: KC_BOOTSTRAP_ADMIN_PASSWORD
-        #       value: "admin"
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:26.4.6
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KC_BOOTSTRAP_ADMIN_USERNAME
+              value: "admin"
+            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+              value: "admin"
+          volumeMounts:
+            - name: keycloak-persistent-storage
+              mountPath: /opt/keycloak/data
+      volumes:
+        - name: keycloak-persistent-storage
+          persistentVolumeClaim:
+            claimName: keycloak-pvc
