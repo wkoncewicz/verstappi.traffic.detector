@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: underwoodsteam/prod-frontend:latest
+          image: underwoodsteam/dev-frontend:latest
           ports:
             - containerPort: 3000
           env:
@@ -27,7 +27,10 @@ spec:
         - name: keycloak
           image: quay.io/keycloak/keycloak:26.4.6
           args: ['start-dev']
-          user: root
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            allowPrivilegeEscalation: false
           ports:
             - containerPort: 8080
           env:

@@ -16,4 +16,4 @@ fi
 read -s -p "Enter your password: " PASSWORD
 echo \n
 
-make build -e DEPLOYMENT=dev -e END=$1 -e DOCKER_TOKEN=$PASSWORD
+make build -e DEPLOYMENT=dev -e COMPONENT=$1 -e DOCKER_TOKEN=$PASSWORD
