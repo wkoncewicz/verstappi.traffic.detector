@@ -11,10 +11,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-      - localhost
+      - verstappi.pl
     secretName: keycloak-tls
   rules:
-  - host: localhost
+  - host: verstappi.pl
     http:
       paths:
       - path: /
