@@ -1,0 +1,80 @@
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+  namespace: mongo
+spec:
+  serviceName: mongo
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        fsGroup: 999
+      containers:
+        - name: mongo
+          image: mongo:7.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: mongo
+              containerPort: 27017
+          envFrom:
+            - secretRef:
+                name: mongo-auth
+          command: ["mongod", "--config", "/etc/mongo/mongod.conf"]
+          volumeMounts:
+            - name: data
+              mountPath: /data/db
+            - name: mongo-config
+              mountPath: /etc/mongo
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -lc
+                - |
+                  mongosh --quiet --eval 'db.runCommand({ ping: 1 }).ok' \
+                    -u "$MONGO_INITDB_ROOT_USERNAME" -p "$MONGO_INITDB_ROOT_PASSWORD" \
+                    --authenticationDatabase admin | grep 1
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -lc
+                - |
+                  mongosh --quiet --eval 'db.runCommand({ ping: 1 }).ok' \
+                    -u "$MONGO_INITDB_ROOT_USERNAME" -p "$MONGO_INITDB_ROOT_PASSWORD" \
+                    --authenticationDatabase admin | grep 1
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+      volumes:
+        - name: mongo-config
+          configMap:
+            name: mongo-config
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi

@@ -3,12 +3,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-service
+  name: mongo
+  namespace: mongo
+  labels:
+    app: mongo
 spec:
+  type: ClusterIP
   selector:
-    app: mysql
+    app: mongo
   ports:
-    - protocol: TCP
-      port: 3306
-      targetPort: 3306
-  clusterIP: None
+    - name: mongo
+      port: 27017
+      targetPort: 27017
