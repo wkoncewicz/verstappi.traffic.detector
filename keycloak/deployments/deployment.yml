@@ -34,7 +34,7 @@ spec:
         - name: KC_PROXY
           value: "edge"
         - name: KC_HOSTNAME
-          value: "https://verstappi.pl:31514"
+          value: "https://verstappi.pl:31514/keycloak"
         - name: KC_HTTP_ENABLED
           value: "true"
         - name: KC_PROXY_HEADERS
