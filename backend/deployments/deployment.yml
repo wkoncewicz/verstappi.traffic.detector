@@ -29,13 +29,13 @@ spec:
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: mysql-credentials
-                  key: MYSQL_USER
+                  name: mongo-auth
+                  key: MONGO_INITDB_ROOT_USERNAME
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-credentials
-                  key: MYSQL_PASSWORD
+                  name: mongo-auth
+                  key: MONGO_INITDB_ROOT_PASSWORD
           resources:
             requests:
               cpu: "100m"

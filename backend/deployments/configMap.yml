@@ -5,4 +5,4 @@ kind: ConfigMap
 metadata:
   name: backend-app-config
 data:
-  DB_HOST: "mysql-service"
+  DB_HOST: "mongo"
