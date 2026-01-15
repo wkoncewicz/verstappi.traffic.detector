@@ -28,7 +28,7 @@ spec:
           envFrom:
             - secretRef:
                 name: mongo-auth
-          command: ["mongod", "--config", "/etc/mongo/mongod.conf"]
+          args: ["--config", "/etc/mongo/mongod.conf"]
           volumeMounts:
             - name: data
               mountPath: /data/db
