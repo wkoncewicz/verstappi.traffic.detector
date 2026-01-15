@@ -6,3 +6,4 @@ uuid6
 PyJWT
 cryptography
 requests
+logger
