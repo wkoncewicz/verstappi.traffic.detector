@@ -8,12 +8,12 @@ def saveLog(service,level,message,transactionId):
         logger.info(message,extra={'service':service,'transactionId':transactionId})
     elif(level=='ERROR'):
         logger.error(message,extra={'service':service,'transactionId':transactionId})
-    elif(level='WARNING'):
+    elif(level=='WARNING'):
         logger.warning(message,extra={'service':service,'transactionId':transactionId})
     try:
         logs.Log(
             service=service,
-            time = datetime.now(timezone.utc)
+            time = datetime.now(timezone.utc),
             message=message,
             transactionId=transactionId
         )
