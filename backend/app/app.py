@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
-from mongo_connect import readFromDataBase
+from mongo_connect import readFromDataBase, mongo_connect
 from ownLogger import saveLog
 from uuid6 import uuid7
 app = Flask(__name__)
@@ -46,5 +46,6 @@ def dhitw():
     return send_file("./public/sarnaLICENCJAT.png", mimetype='image/png')
 
 if __name__ == '__main__':
+    mongo_connect()
     app.run(host='0.0.0.0', port=5000)
 

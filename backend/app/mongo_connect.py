@@ -1,23 +1,23 @@
 from mongoengine import connect
 from mongo_models import traffic
-from datetime import datetime, timezone
+from datetime import datetime
 from ownLogger import saveLog
 import os
 
-# Resolve Mongo connection settings from environment (with sensible defaults)
 host_env = os.getenv('DB_HOST')
 db_user = os.getenv('DB_USER')
 db_password = os.getenv('DB_PASSWORD')
 auth_source = "admin"
 mongo_host = f"mongodb://{host_env}:27017"
 
-connect(
-    db=host_env,
-    host=mongo_host,
-    username=db_user,
-    password=db_password,
-    authentication_source=auth_source
-)
+def mongo_connect():
+    connect(
+        db=host_env,
+        host=mongo_host,
+        username=db_user,
+        password=db_password,
+        authentication_source=auth_source
+    )
 
 service = {
     'name': "MONGO",
