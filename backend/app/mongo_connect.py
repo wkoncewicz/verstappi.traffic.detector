@@ -11,13 +11,17 @@ auth_source = "admin"
 mongo_host = f"mongodb://{host_env}:27017"
 
 def mongo_connect():
-    connect(
-        db=host_env,
-        host=mongo_host,
-        username=db_user,
-        password=db_password,
-        authentication_source=auth_source
-    )
+    try:
+        connect(
+            db=host_env,
+            host=mongo_host,
+            username=db_user,
+            password=db_password,
+            authentication_source=auth_source
+        )
+        print("Connected to MongoDB")
+    except Exception as e:
+        print(f"Failed to connect to MongoDB: {e}")
 
 service = {
     'name': "MONGO",
