@@ -11,11 +11,12 @@ def saveLog(service,level,message,transactionId):
     elif(level=='WARNING'):
         logger.warning(message,extra={'service':service,'transactionId':transactionId})
     try:
-        logs.Log(
+        log = logs.Logs(
             service=service,
             time = datetime.now(timezone.utc),
             message=message,
             transactionId=transactionId
         )
+        log.save()
     except Exception as e:
         logger.error(f"An error occured while tryind to save log for transactionId {transactionId}")
