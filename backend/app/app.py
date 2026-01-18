@@ -18,7 +18,7 @@ service = {
 
 DETECTOR_TOKEN = os.getenv("DETECTOR_TOKEN") or "tajnehaslodetectora"
 
-@app.route('/api/traffic', methods=['POST'])
+@app.route('/traffic', methods=['POST'])
 def traffic():
     tx_id = str(uuid7())
     try:
@@ -62,7 +62,7 @@ def traffic():
         saveLog(service['name'], service['error'], str(e), tx_id)
         return jsonify({"error": "An error occured"}), 500
 
-@app.route('/api/message', methods=['GET'])
+@app.route('/message', methods=['GET'])
 def message():
     tx_id = str(uuid7())
     try:
@@ -71,7 +71,7 @@ def message():
     except Exception as e:
         saveLog(service['name'],service['error'],f'/message not granted',tx_id)
         return jsonify({"error": "An error occured"}), 500
-@app.route('/api/getDataBaseData',methods=["GET"])
+@app.route('/getDataBaseData',methods=["GET"])
 def getData():
     tx_id = str(uuid7())
     try:
@@ -88,7 +88,7 @@ def getData():
         saveLog(service['name'],service['error'],str(e),tx_id)
         return jsonify({"error":"An error occured"}), 500
     
-@app.route('/api/dhitw',methods=['GET'])
+@app.route('/dhitw',methods=['GET'])
 def dhitw():
     return send_file("./public/sarnaLICENCJAT.png", mimetype='image/png')
 
