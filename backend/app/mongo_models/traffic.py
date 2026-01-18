@@ -1,5 +1,5 @@
 from mongoengine import Document, StringField, IntField
-class TrafficWithTimeStamp(Document):
+class Traffic(Document):
     time = StringField(required=True)
     carsAmount = IntField(required=True)
     motorcyclesAmount = IntField(required=True)

@@ -1,0 +1,6 @@
+ultralytics==8.3.228
+numpy==2.2.6
+opencv-python==4.10.0.84
+python-vlc==3.0.21203
+lap>=0.5.12
+mongoengine==0.29.1
