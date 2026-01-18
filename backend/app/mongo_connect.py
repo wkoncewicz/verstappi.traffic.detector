@@ -1,9 +1,18 @@
 from mongoengine import connect
-from mongo_models import traffic
-from datetime import datetime
-from ownLogger import saveLog
+from mongo_models import traffic, logs
+from datetime import datetime, timezone
+import logging
 import os
+logger = logging.getLogger("app")
+logger.setLevel(logging.INFO)
 
+if not logger.handlers:
+    h = logging.StreamHandler()
+    h.setLevel(logging.INFO)
+    h.setFormatter(logging.Formatter("%(asctime)s %(message)s"))
+    logger.addHandler(h)
+
+logger.propagate = False
 host_env = os.getenv('DB_HOST')
 db_user = os.getenv('DB_USER')
 db_password = os.getenv('DB_PASSWORD')
@@ -24,12 +33,11 @@ def mongo_connect():
         print(f"Failed to connect to MongoDB: {e}")
 
 service = {
-    'name': "MONGO",
+    'name': "[MONGO]",
     'info': "INFO",
     'error' : "ERROR",
     'warning': "WARNING"
 }
-
 def getTime():
     time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return time
@@ -49,3 +57,24 @@ def readFromDataBase(transId):
         return data
     except Exception as e:
         saveLog(service['name'],service['error'],str(e),transId)
+
+
+def saveLog(service,level,message,transactionId):
+    newMessage = f'{service} {level} {message} transactionId: {transactionId}'
+    if(level=='INFO'):
+        logger.info(newMessage,extra={'service':service,'transactionId':transactionId})
+    elif(level=='ERROR'):
+        logger.error(newMessage,extra={'service':service,'transactionId':transactionId})
+    elif(level=='WARNING'):
+        logger.warning(newMessage,extra={'service':service,'transactionId':transactionId})
+    try:
+        log = logs.Logs(
+            service=service,
+            time = datetime.now(timezone.utc),
+            type=level,
+            message=message,
+            transactionId=transactionId
+        )
+        log.save()
+    except Exception as e:
+        logger.error(f"An error {e} occured while trying to save log for transactionId: {transactionId}")
