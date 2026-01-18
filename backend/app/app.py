@@ -19,7 +19,7 @@ service = {
 DETECTOR_TOKEN = os.getenv("DETECTOR_TOKEN") or "tajnehaslodetectora"
 
 @app.route('/traffic', methods=['POST'])
-def traffic():
+def post_traffic():
     tx_id = str(uuid7())
     try:
         if not DETECTOR_TOKEN:
