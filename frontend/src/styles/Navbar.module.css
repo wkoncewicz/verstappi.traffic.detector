@@ -1,0 +1,140 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  background: rgba(10, 10, 12, 0.58);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 14px 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.text {
+  line-height: 1.05;
+  min-width: 0;
+}
+
+.name {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: rgba(255, 255, 255, 0.92);
+
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+
+  padding: 8px 10px;
+  border-radius: 10px;
+
+  transition: background-color 0.15s ease, transform 0.15s ease, color 0.15s ease;
+}
+
+.name:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.name:active {
+  transform: translateY(1px);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.link {
+  color: rgba(229, 231, 235, 0.86);
+  text-decoration: none;
+  font-size: 0.92rem;
+
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.link:active {
+  transform: translateY(1px);
+}
+
+.primaryBtn {
+  border: 0;
+  border-radius: 12px;
+  padding: 9px 12px;
+
+  font-size: 0.9rem;
+  font-weight: 650;
+  color: #0b0b0f;
+
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+
+  transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.primaryBtn:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.36);
+}
+
+.primaryBtn:active {
+  transform: translateY(0px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+.authHint {
+  color: rgba(229, 231, 235, 0.72);
+  font-size: 0.9rem;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+@media (max-width: 640px) {
+  .inner {
+    padding: 12px 14px;
+  }
+
+  .links {
+    gap: 8px;
+  }
+
+  .link {
+    padding: 8px 8px;
+  }
+}

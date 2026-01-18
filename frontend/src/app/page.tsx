@@ -1,5 +1,9 @@
 'use client'
-import Main from "@/app/components/main"
+import Main from "./components/main"
+import Navbar from "./components/navbar"
+import Footer from "./components/footer";
 export default function Home() {
-  return (<><Main/></>);
+  return (
+        <Main/>
+  );
 }
