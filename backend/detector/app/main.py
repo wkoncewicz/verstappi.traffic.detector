@@ -27,11 +27,15 @@ stream_url = "https://wzmedia.dot.ca.gov/D3/99_JCT162E_BUT99_NB.stream/chunklist
 
 
 if args.reader == "vlc":
+    print("Using VLCStreamReader")
     reader = VLCStreamReader(stream_url, width=1280, height=720, cache_ms=2500, interval=0.03, deque_size=5)
 else:
+    print("Using FFmpegStreamReader")
     reader = FFmpegStreamReader(stream_url, width=1280, height=720, fps=25, queue_size=3)
 
 model = YOLO("yolov8m.pt")
+
+print("Model loaded")
 
 last_position = {}
 allowed = [2, 3, 5, 7]
@@ -91,11 +95,13 @@ try:
                     if track_id not in vehicles[vehicleIds_key]:
                         vehicles[vehicleIn_key] += 1
                         vehicles[vehicleIds_key].add(track_id)
+                        print("Vehicle detected")
 
                 elif mid_y < lane_mid_y < last_y:
                     if track_id not in vehicles[vehicleIds_key]:
                         vehicles[vehicleOut_key] += 1
                         vehicles[vehicleIds_key].add(track_id)
+                        print("Vehicle detected")
 
             last_position[track_id] = (mid_x, mid_y)
 
@@ -122,7 +128,7 @@ try:
             fps = 5.0 / dt if dt>0 else 0.0
             fps_smooth = fps if fps_smooth is None else (0.7*fps_smooth + 0.3*fps)
             t0 = now
-            # print(f"FPS: {fps_smooth:.1f}")
+            print(f"FPS: {fps_smooth:.1f}")
             czas = round_down_to_10_minutes(datetime.now())
             if vehicles["timeStamp"] is None:
                 vehicles["timeStamp"] = czas

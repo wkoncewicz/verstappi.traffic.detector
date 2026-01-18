@@ -13,6 +13,7 @@ from collections import deque
 
 class FFmpegStreamReader:
     def __init__(self, url, width=1280, height=720, fps=25, queue_size=3):
+        print("Initializing FFmpegStreamReader...")
         self.url = url
         self.width = int(width)
         self.height = int(height)
@@ -38,6 +39,7 @@ class FFmpegStreamReader:
         self._frame = None
         self._dq = deque(maxlen=self.queue_size)
         self._thread = threading.Thread(target=self._read_loop, daemon=True)
+        print("Starting FFmpeg read thread...")
         self._thread.start()
 
     def _read_loop(self):

@@ -6,7 +6,7 @@ metadata:
   labels:
     app: backend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -36,10 +36,40 @@ spec:
                 secretKeyRef:
                   name: mongo-auth
                   key: MONGO_INITDB_ROOT_PASSWORD
+            - name: DETECTOR_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: backend-auth
+                  key: DETECTOR_TOKEN
           resources:
             requests:
               cpu: "100m"
               memory: "128Mi"
             limits:
-              cpu: "500m"
               memory: "512Mi"
+        # - name: detector
+        #   image: underwoodsteam/dev-detector:latest
+        #   ports:
+        #     - containerPort: 9000
+        #   env:
+        #     - name: DB_HOST
+        #       valueFrom:
+        #         configMapKeyRef:
+        #           name: backend-app-config
+        #           key: DB_HOST
+        #     - name: DB_USER
+        #       valueFrom:
+        #         secretKeyRef:
+        #           name: mongo-auth
+        #           key: MONGO_INITDB_ROOT_USERNAME
+        #     - name: DB_PASSWORD
+        #       valueFrom:
+        #         secretKeyRef:
+        #           name: mongo-auth
+        #           key: MONGO_INITDB_ROOT_PASSWORD
+          # resources:
+          #   requests:
+          #     cpu: "400m"
+          #     memory: "256Mi"
+          #   limits:
+          #     memory: "4Gi"

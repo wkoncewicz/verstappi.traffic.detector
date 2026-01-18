@@ -1,7 +1,14 @@
-from mongoengine import Document, StringField, IntField
+from mongoengine import (
+    Document,DateTimeField, IntField
+)
+
 class Traffic(Document):
-    time = StringField(required=True)
-    carsAmount = IntField(required=True)
-    motorcyclesAmount = IntField(required=True)
-    busesAmount = IntField(required=True)
-    trucksAmount = IntField(required=True)
+    time = DateTimeField(required=True)
+    carsIn = IntField(required=True)
+    carsOut = IntField(required=True)
+    motorcyclesIn = IntField(required=True)
+    motorcyclesOut = IntField(required=True)
+    busesIn = IntField(required=True)
+    busesOut = IntField(required=True)
+    trucksIn = IntField(required=True)
+    trucksOut = IntField(required=True)

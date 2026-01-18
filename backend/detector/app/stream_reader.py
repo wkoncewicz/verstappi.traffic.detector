@@ -45,7 +45,6 @@ class VLCStreamReader:
             "--aout=dummy",
             "--no-video-title-show",
             "--no-spu",
-            "--avcodec-hw=none",
             "--no-osd",
             f"--network-caching={self.cache_ms}",
             f"--live-caching={self.cache_ms}",
@@ -54,6 +53,16 @@ class VLCStreamReader:
             self.instance = vlc.Instance(args)
         except TypeError:
             self.instance = vlc.Instance(*args)
+
+        # if self.instance is None:
+        #     print("VLC instance creation failed with full args, trying minimal args...")
+        #     try:
+        #         self.instance = vlc.Instance("--no-xlib")
+        #     except:
+        #         self.instance = vlc.Instance()
+        
+        # if self.instance is None:
+        #     raise RuntimeError("Failed to create VLC instance. Check VLC installation and arguments.")
 
         self.player = self.instance.media_player_new()
         media = self.instance.media_new(self.url)
