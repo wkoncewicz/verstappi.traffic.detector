@@ -3,7 +3,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: backend-ingress
+  name: ingress-prod
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -15,7 +15,7 @@ spec:
   tls:
   - hosts:
       - verstappi.pl
-    secretName: backend-tls
+    secretName: frontend-tls-zcpk9
   rules:
   - host: verstappi.pl
     http:
