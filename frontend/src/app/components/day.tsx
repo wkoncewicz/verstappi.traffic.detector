@@ -11,7 +11,7 @@ export default function Day(){
         // <section className={styles.wrapper}>
           // <div className={styles.card}>
           <div>
-            {!keycloak.authenticated ? (
+            {keycloak.authenticated ? (
               <>
                 <div>godziny</div>
               </>

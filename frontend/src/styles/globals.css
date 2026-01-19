@@ -20,10 +20,11 @@ body {
   flex-direction: column;
 
   background:
-    radial-gradient(900px 420px at 20% 10%, rgba(255,255,255,0.08), transparent 60%),
-    radial-gradient(800px 420px at 80% 30%, rgba(255,255,255,0.05), transparent 55%),
+    radial-gradient(1200px 600px at 20% 20%, rgba(255,255,255,0.06), transparent 70%),
+    radial-gradient(1200px 600px at 80% 25%, rgba(255,255,255,0.04), transparent 72%),
     linear-gradient(180deg, #0b0b0f 0%, #121218 100%);
 }
+
 
 .app-main {
   flex: 1;

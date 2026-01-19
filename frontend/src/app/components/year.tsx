@@ -8,7 +8,7 @@ import axios from 'axios';
 export default function Year(){
     const params = useParams<{year:string}>();
     const router = useRouter();
-    const url = "https://verstappi.pl:5000/traffic"
+    const url = "https://verstappi.pl:5000/api/getDataBaseData"
     const [data,setData] = useState([])
     const months = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień']
     useEffect(()=>{
@@ -20,6 +20,7 @@ export default function Year(){
               Authorization: `Bearer ${keycloak.token}`
             }
           })
+          console.log(res.data)
           setData(res.data)
         }
         catch(err){
@@ -38,7 +39,7 @@ export default function Year(){
     }
     return (
           <div>
-            {!keycloak.authenticated ? (
+            {keycloak.authenticated ? (
               <>
                 <div className={styles.tilesGrid}>
                   {months.map((month)=>(

@@ -16,7 +16,7 @@ export default function Month(){
         // <section className={styles.wrapper}>
           // <div className={styles.card}>
           <div>
-            {!keycloak.authenticated ? (
+            {keycloak.authenticated ? (
               <>
               
               <div className={styles.parentTilesGrid}>

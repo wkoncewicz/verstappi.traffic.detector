@@ -25,7 +25,7 @@ export default function LoggedUser() {
         <div className={styles.page}>
           <div className={styles.container}>
           <div>
-            {!keycloak.authenticated ? (
+            {keycloak.authenticated ? (
               <>
                 <div className={styles.tilesGrid}>
                   {years.map((year)=>(

@@ -17,7 +17,7 @@ export default function Main() {
       {/* <section className={styles.panel}>*/}
 
         <div className={styles.body}>
-          {!keycloak.authenticated && (
+          {keycloak.authenticated && (
             <button
               className={styles.loginBtn}
               onClick={() => keycloak.login()}

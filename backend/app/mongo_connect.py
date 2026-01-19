@@ -44,7 +44,7 @@ def getTime():
 
 def saveToDataBase(amount,transId):
     try:
-        data = traffic.TrafficWithTimeStamp(time=getTime(),amount=amount)
+        data = traffic.Traffic(time=getTime(),amount=amount)
         data.save()
         saveLog(service['name'],service['info'],"saved data to database",transId)
     except Exception as e:
@@ -52,7 +52,7 @@ def saveToDataBase(amount,transId):
         
 def readFromDataBase(transId):
     try:
-        data = traffic.TrafficWithTimeStamp.objects()
+        data = traffic.Traffic.objects()
         saveLog(service['name'],service['info'],"granting database data",transId)
         return data
     except Exception as e:
