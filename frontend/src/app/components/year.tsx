@@ -38,7 +38,7 @@ export default function Year(){
     }
     return (
           <div>
-            {!keycloak.authenticated ? (
+            {keycloak.authenticated ? (
               <>
                 <div className={styles.tilesGrid}>
                   {months.map((month)=>(

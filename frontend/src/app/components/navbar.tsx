@@ -21,7 +21,7 @@ export default function Navbar() {
         </div>
 
         <nav className={styles.links} aria-label="Nawigacja">
-            {!keycloak.authenticated ? (
+            {keycloak.authenticated ? (
                 <>
                 <a className={styles.link} onClick={()=>goToMain()}>Strona główna</a>
                 <a className={styles.link} onClick={()=>goToHelp()}>Pomoc</a>
