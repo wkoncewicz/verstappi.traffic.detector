@@ -3,10 +3,6 @@
   display: grid;
   place-items: center;
 
-  background:
-    radial-gradient(900px 420px at 20% 10%, rgba(255, 255, 255, 0.10), transparent 60%),
-    radial-gradient(800px 420px at 80% 30%, rgba(255, 255, 255, 0.06), transparent 55%),
-    linear-gradient(180deg, #0b0b0f 0%, #121218 100%);
 
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
   color: rgba(229, 231, 235, 0.92);

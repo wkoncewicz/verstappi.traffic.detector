@@ -34,12 +34,7 @@ export default function Month(){
               </div>
               </>
             ) : (
-              <button
-                className={styles.primaryBtn}
-                onClick={() => keycloak.login()}
-              >
-                Zaloguj się do systemu
-              </button>
+              <div>Musisz być zalogowany!</div>
             )}
           </div>
         // </section>

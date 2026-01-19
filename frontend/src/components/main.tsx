@@ -17,14 +17,6 @@ export default function Main() {
       {/* <section className={styles.panel}>*/}
 
         <div className={styles.body}>
-          {keycloak.authenticated && (
-            <button
-              className={styles.loginBtn}
-              onClick={() => keycloak.login()}
-            >
-              Zaloguj się do systemu
-            </button>
-          )}
         </div>
 
       {/* </section> */}

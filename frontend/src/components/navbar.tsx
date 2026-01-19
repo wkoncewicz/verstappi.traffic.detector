@@ -32,7 +32,12 @@ export default function Navbar() {
                     Wyloguj się
                 </button>
                 </>
-            ) : (<div>Login</div>)}
+            ) : (<button
+              className={styles.loginBtn}
+              onClick={() => keycloak.login()}
+            >
+              Zaloguj się do systemu
+            </button>)}
         </nav>
       </div>
     </header>
