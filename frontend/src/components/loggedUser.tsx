@@ -1,5 +1,5 @@
 import { use, useEffect, useState } from "react";
-import {keycloak} from "../keycloak";
+import {keycloak} from "@/app/keycloak";
 import axios from "axios";
 import styles from "@/styles/LoggedUser.module.css";
 import { useRouter } from "next/navigation";

@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
-import { keycloak } from "../keycloak";
+import { keycloak } from "@/app/keycloak";
 
 export default function KeycloakProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);

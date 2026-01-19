@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
-import Navbar from "./components/navbar";
-import Footer from "./components/footer";
-import HlsPlayer from "./components/HlsPlayer";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import HlsPlayer from "@/components/HlsPlayer";
 
 export default function RootLayout({
   children,

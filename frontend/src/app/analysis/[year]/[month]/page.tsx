@@ -1,7 +1,5 @@
 'use client';
-import Footer from "@/app/components/footer";
-import Month from "@/app/components/month";
-import Navbar from "@/app/components/navbar";
+import Month from "@/components/month";
 export default function MonthPage(){
         return(
                 <Month/>

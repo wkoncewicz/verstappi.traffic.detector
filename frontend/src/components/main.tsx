@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { keycloak } from "../keycloak";
+import { keycloak } from "@/app/keycloak";
 import styles from "@/styles/Main.module.css";
 import { useEffect } from "react";
 
