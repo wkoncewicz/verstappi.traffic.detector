@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "@/styles/Navbar.module.css";
-import { keycloak } from "../keycloak";
+import { keycloak } from "@/app/keycloak";
 import { useRouter } from "next/navigation";
 export default function Navbar() {
   const router = useRouter()

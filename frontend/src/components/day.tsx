@@ -1,7 +1,6 @@
 'use client'
-import { keycloak } from "../keycloak";
+import { keycloak } from "@/app/keycloak";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import styles from "@/styles/Day.module.css";
 import { useParams } from "next/navigation";
 export default function Day(){

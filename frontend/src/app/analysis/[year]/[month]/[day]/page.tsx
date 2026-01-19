@@ -1,7 +1,7 @@
 'use client';
-import Day from "@/app/components/day";
-import Footer from "@/app/components/footer";
-import Navbar from "@/app/components/navbar";
+import Day from "@/components/day";
+import Footer from "@/components/footer";
+import Navbar from "@/components/navbar";
 export default function DayPage(){
         return(
             

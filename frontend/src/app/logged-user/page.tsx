@@ -1,7 +1,5 @@
 'use client';
-import Footer from "../components/footer";
-import LoggedUser from "../components/loggedUser";
-import Navbar from "../components/navbar";
+import LoggedUser from "@/components/loggedUser";
 export default function LoggedUserPage(){
     return (
         
