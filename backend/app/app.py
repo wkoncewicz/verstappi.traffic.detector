@@ -24,7 +24,7 @@ def split_to_months(days):
     months = {}
 
     for day in days:
-        month_key = day.strftime("%Y-%m")
+        month_key = day["timeStamp"][5:7]
         if month_key not in months:
             months[month_key] = {}
         
@@ -78,7 +78,7 @@ def post_traffic():
         )
         data.save()
 
-        if timeStamp.time() == time(0, 30, 0):
+        if timeStamp.time() == time(0, 0, 0):
             yesterday = timeStamp - timedelta(days=1)
 
             dataList = traffic_model.Traffic.objects(
