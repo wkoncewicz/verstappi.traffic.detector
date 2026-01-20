@@ -78,7 +78,7 @@ def post_traffic():
         )
         data.save()
 
-        if timeStamp.time() == time(0, 15, 0):
+        if timeStamp.time() == time(0, 20, 0):
             yesterday = timeStamp - timedelta(days=1)
 
             dataList = traffic_model.Traffic.objects(
