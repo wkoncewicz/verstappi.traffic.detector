@@ -4,7 +4,7 @@ import os
 from dateutil.relativedelta import relativedelta
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
-from mongo_connect import readFromDataBase, mongo_connect,saveLog
+from mongo_connect import mongo_connect,saveLog
 from uuid6 import uuid7
 from mongo_models import traffic as traffic_model
 
@@ -78,7 +78,7 @@ def post_traffic():
         )
         data.save()
 
-        if timeStamp.time() == time(0, 20, 0):
+        if timeStamp.time() == time(0, 30, 0):
             yesterday = timeStamp - timedelta(days=1)
 
             dataList = traffic_model.Traffic.objects(
