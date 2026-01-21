@@ -14,8 +14,8 @@ export default function RootLayout({
       <body className="app-shell">
         <Navbar />
         <main className="app-main">
-          {/* <KeycloakProvider>{children}</KeycloakProvider> */}
-          {children}
+          <KeycloakProvider>{children}</KeycloakProvider>
+          {/* {children} */}
         </main>
         <Footer />
       </body>
