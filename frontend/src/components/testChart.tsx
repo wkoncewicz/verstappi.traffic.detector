@@ -28,8 +28,8 @@ function CustomTooltip({ active, payload, label }: any) {
     >
       <div style={{ fontWeight: 600 }}>{label}</div>
 
-      <div style={{ color: "#22c55e" }}>IN: {row.busesIn+row.carsIn+row.motorcyclesIn+row.trucksIn}</div>
-      <div style={{ color: "#ef4444" }}>OUT: {row.busesOut+row.carsOut+row.motorcyclesOut+row.trucksOut}</div>
+      <div style={{ color: "#ef4444" }}>IN: {row.busesIn+row.carsIn+row.motorcyclesIn+row.trucksIn}</div>
+      <div style={{ color: "#ffffff" }}>OUT: {row.busesOut+row.carsOut+row.motorcyclesOut+row.trucksOut}</div>
 
       <hr style={{ borderColor: "#334155", margin: "6px 0" }} />
 

@@ -41,7 +41,6 @@ export default function Day(){
             return { name: label, ts, in: inSum, out: outSum, ...v };
           });
           setData(chartData)
-          // console.log(res.data)
         }
         catch(err){
           console.log(err)
