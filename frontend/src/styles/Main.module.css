@@ -10,7 +10,6 @@
   padding: 20px;
 }
 
-/* jeśli kiedyś odkomentujesz panel - będzie wyglądał jak karta */
 .panel {
   width: 100%;
   max-width: 720px;
@@ -29,7 +28,6 @@
   overflow: hidden;
 }
 
-/* Nagłówek (gdybyś wrócił do headera) */
 .header {
   padding: 42px 44px 26px;
   position: relative;
@@ -57,14 +55,12 @@
   color: rgba(229, 231, 235, 0.68);
 }
 
-/* Twoja obecna część - body */
 .body {
   padding: 26px 18px 10px;
   display: flex;
   justify-content: center;
 }
 
-/* Przycisk loginu */
 .loginBtn {
   padding: 12px 18px;
   min-width: 240px;
@@ -96,7 +92,6 @@
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.40);
 }
 
-/* Stopka (jakbyś wrócił do footer w panelu) */
 .footer {
   display: flex;
   justify-content: space-between;
@@ -109,7 +104,6 @@
   background: rgba(255, 255, 255, 0.02);
 }
 
-/* Mobile */
 @media (max-width: 640px) {
   .panel {
     max-width: 560px;
