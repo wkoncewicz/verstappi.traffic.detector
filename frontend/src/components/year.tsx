@@ -22,15 +22,15 @@ export default function Year(){
               Authorization: `Bearer ${keycloak.token}`
             }
           })
-          const chartData = Object.entries(res.data).map(([day, v]: any) => {
+          const chartData = Object.entries(res.data.data).map(([day, v]: any) => {
             const inSum  = v.carsIn + v.trucksIn + v.busesIn + v.motorcyclesIn;
             const outSum = v.carsOut + v.trucksOut + v.busesOut + v.motorcyclesOut;
             return { name: day, in: inSum, out: outSum, ...v };
           });
-          console.log(res.data)
-          console.log(chartData)
+          // console.log(res.data)
+          // console.log(chartData)
           setData(chartData)
-          setMonths(Object.keys(res.data))
+          setMonths(Object.keys(res.data.data))
         }
         catch(err){
           console.log(err)
