@@ -15,7 +15,7 @@ export default function LoggedUser() {
         <div className={styles.page}>
           <div className={styles.container}>
           <div>
-            {!keycloak.authenticated ? (
+            {keycloak.authenticated ? (
               <>
               <div className={styles.streamBox}>
               <HlsPlayer src="https://wzmedia.dot.ca.gov/D3/99_JCT162E_BUT99_NB.stream/chunklist_w646513265.m3u8" />

@@ -93,6 +93,7 @@
 
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  align-items: start;
   gap: 16px;
   padding-right: 8px;
   margin-top: 0;
@@ -198,7 +199,7 @@
   border-radius: 14px;
   padding: 12px;
   min-height: 90px;
-
+  height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
