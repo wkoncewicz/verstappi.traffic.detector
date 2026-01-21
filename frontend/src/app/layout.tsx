@@ -14,10 +14,8 @@ export default function RootLayout({
       <body className="app-shell">
         <Navbar />
         <main className="app-main">
-            <div style={{ padding: 24, maxWidth:720 }}>
-              <HlsPlayer src="https://wzmedia.dot.ca.gov/D3/99_JCT162E_BUT99_NB.stream/chunklist_w646513265.m3u8" />
-            </div>
-          <KeycloakProvider>{children}</KeycloakProvider>
+          {/* <KeycloakProvider>{children}</KeycloakProvider> */}
+          {children}
         </main>
         <Footer />
       </body>

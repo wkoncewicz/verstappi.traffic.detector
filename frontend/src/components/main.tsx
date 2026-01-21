@@ -9,7 +9,7 @@ export default function Main() {
   const router = useRouter();
   useEffect(() => {
     if (keycloak.authenticated) {
-      router.push("/logged-user"); // albo "/profile"
+      router.push("/logged-user");
     }
   }, [router]);
   return (

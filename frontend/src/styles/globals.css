@@ -25,15 +25,16 @@ body {
     linear-gradient(180deg, #0b0b0f 0%, #121218 100%);
 }
 
-.app-main {
+.app-main{
   flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-
-  padding: 26px 18px;
-  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 26px 18px;     /* DODAJ */
+  box-sizing: border-box; /* DODAJ */
 }
+
 
 button {
   appearance: none;
