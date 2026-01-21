@@ -10,7 +10,7 @@ import HlsPlayer from "./HlsPlayer";
 export default function Day(){
     const params = useParams<{year:string,month:string,day:string}>();
     const router = useRouter();
-    const [data,setData] = useState([])
+    const [data,setData] = useState<any[]>([]);
     const url = `https://verstappi.pl:31514/api/traffic`
     useEffect(()=>{
       const load = async() =>{
@@ -21,7 +21,26 @@ export default function Day(){
               Authorization: `Bearer ${keycloak.token}`
             }
           })
-          setData(res.data)
+          const chartData = Object.entries(res.data.data)
+          .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
+          .map(([ts, v]: any) => {
+            const inSum =
+              (Number(v.carsIn) || 0) +
+              (Number(v.trucksIn) || 0) +
+              (Number(v.busesIn) || 0) +
+              (Number(v.motorcyclesIn) || 0);
+
+            const outSum =
+              (Number(v.carsOut) || 0) +
+              (Number(v.trucksOut) || 0) +
+              (Number(v.busesOut) || 0) +
+              (Number(v.motorcyclesOut) || 0);
+
+            const label = String(v.timeStamp).slice(11, 16);
+
+            return { name: label, ts, in: inSum, out: outSum, ...v };
+          });
+          setData(chartData)
           // console.log(res.data)
         }
         catch(err){
