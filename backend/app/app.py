@@ -168,9 +168,9 @@ def get_traffic_month(year, month):
             day__lt=end_time
         )
 
-        result = []
+        result = {}
         for entry in data:
-            result.append({
+            result[entry.day.isoformat()[8:10]] = {
                 "timeStamp": entry.day.isoformat(),
                 "carsIn": entry.traffic.carsIn,
                 "carsOut": entry.traffic.carsOut,
@@ -180,7 +180,7 @@ def get_traffic_month(year, month):
                 "busesOut": entry.traffic.busesOut,
                 "trucksIn": entry.traffic.trucksIn,
                 "trucksOut": entry.traffic.trucksOut,
-            })
+            }
 
         saveLog(service['name'], service['info'], f"/traffic/{year}/{month} granted", tx_id)
         return jsonify({"data": result}), 200
@@ -202,7 +202,7 @@ def get_traffic_day(year, month, day):
 
         result = []
         for entry in data:
-            result.append({
+            result[entry.time.isoformat()] = {
                 "timeStamp": entry.time.isoformat(),
                 "carsIn": entry.carsIn,
                 "carsOut": entry.carsOut,
@@ -212,7 +212,7 @@ def get_traffic_day(year, month, day):
                 "busesOut": entry.busesOut,
                 "trucksIn": entry.trucksIn,
                 "trucksOut": entry.trucksOut,
-            })
+            }
 
         saveLog(service['name'], service['info'], f"/traffic/{year}/{month}/{day} granted", tx_id)
         return jsonify({"data": result}), 200
