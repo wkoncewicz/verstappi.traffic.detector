@@ -200,7 +200,7 @@ def get_traffic_day(year, month, day):
             time__lt=end_time
         )
 
-        result = []
+        result = {}
         for entry in data:
             result[entry.time.isoformat()] = {
                 "timeStamp": entry.time.isoformat(),
