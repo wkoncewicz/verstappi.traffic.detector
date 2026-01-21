@@ -53,7 +53,7 @@ export default function BasicChart({data}:{data:any[]}) {
       <ResponsiveContainer>
         <LineChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" interval={0} />
+          <XAxis dataKey="name" interval="preserveStartEnd" tick={{fontSize:11}}/>
           <YAxis />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
