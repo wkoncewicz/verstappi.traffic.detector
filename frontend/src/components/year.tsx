@@ -27,6 +27,8 @@ export default function Year(){
             const outSum = v.carsOut + v.trucksOut + v.busesOut + v.motorcyclesOut;
             return { name: day, in: inSum, out: outSum, ...v };
           });
+          console.log(res.data)
+          console.log(chartData)
           setData(chartData)
           setMonths(Object.keys(res.data))
         }
@@ -51,7 +53,7 @@ export default function Year(){
 
                     <div className={styles.tilesBox}>
                       <div className={styles.tilesGrid}>
-                        {Object.keys(months).map((month) => (
+                        {months.map((month) => (
                           <div key={month} className={styles.tile}>
                             <div className={styles.tileTitle}>{month}</div>
                             <button onClick={() => goToMonth(month)}>Zobacz więcej</button>

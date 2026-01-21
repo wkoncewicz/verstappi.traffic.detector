@@ -62,7 +62,7 @@ export default function Month(){
               </div>
 
               <div className={styles.tilesGrid}>
-                {Object.keys(days).map((day) => (
+                {days.map((day) => (
                   <div key={day} className={styles.tile}>
                     <div className={styles.tileTitle}>Dzień {day}</div>
                     <button className={styles.tileBtn} onClick={() => goToDay(day)}>Zobacz</button>
