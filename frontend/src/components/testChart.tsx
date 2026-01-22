@@ -28,11 +28,11 @@ function CustomTooltip({ active, payload, label }: any) {
     >
       <div style={{ fontWeight: 600 }}>{label}</div>
 
+      <div style={{ color: "green" }}>IN: {row.sum}</div>
       <div style={{ color: "#ef4444" }}>IN: {row.busesIn+row.carsIn+row.motorcyclesIn+row.trucksIn}</div>
       <div style={{ color: "#ffffff" }}>OUT: {row.busesOut+row.carsOut+row.motorcyclesOut+row.trucksOut}</div>
 
       <hr style={{ borderColor: "#334155", margin: "6px 0" }} />
-
       <div>Samochody wjeżdżające: {row.carsIn} </div>
       <div>Samochody wyjeżdżające: {row.carsOut} </div>
       <div>Ciężarówki wjeżdżające: {row.trucksIn} </div>
@@ -57,9 +57,9 @@ export default function BasicChart({data}:{data:any[]}) {
           <YAxis />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
-          <Line type="monotone" dataKey="sum" stroke="green" strokeWidth={2} dot={false} />
+          <Line type="monotone" dataKey="sum" stroke="white" strokeWidth={2} dot={false} />
           <Line type="monotone" dataKey="in" stroke="red" strokeWidth={2} dot={false} />
-          <Line type='monotone' dataKey="out" stroke="white" strokeWidth={2} dot={false} />
+          <Line type='monotone' dataKey="out" stroke="green" strokeWidth={2} dot={false} />
         </LineChart>
       </ResponsiveContainer>
     </div>
