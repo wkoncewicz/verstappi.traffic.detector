@@ -28,7 +28,7 @@ export default function Month(){
           const chartData = Object.entries(res.data.data).map(([day, v]: any) => {
             const inSum  = v.carsIn + v.trucksIn + v.busesIn + v.motorcyclesIn;
             const outSum = v.carsOut + v.trucksOut + v.busesOut + v.motorcyclesOut;
-            return { name: day, in: inSum, out: outSum, ...v };
+            return { name: day, in: inSum, out: outSum, sum:inSum+outSum, ...v };
           });
           setData(chartData)
           setDays(Object.keys(res.data.data))

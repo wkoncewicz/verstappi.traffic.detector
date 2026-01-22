@@ -38,7 +38,7 @@ export default function Day(){
 
             const label = String(v.timeStamp).slice(11, 16);
 
-            return { name: label, ts, in: inSum, out: outSum, ...v };
+            return { name: label, ts, in: inSum, out: outSum, sum:inSum+outSum, ...v };
           });
           setData(chartData)
         }

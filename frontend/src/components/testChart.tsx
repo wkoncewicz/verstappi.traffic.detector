@@ -57,7 +57,7 @@ export default function BasicChart({data}:{data:any[]}) {
           <YAxis />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
-
+          <Line type="monotone" dataKey="sum" stroke="green" strokeWidth={2} dot={false} />
           <Line type="monotone" dataKey="in" stroke="red" strokeWidth={2} dot={false} />
           <Line type='monotone' dataKey="out" stroke="white" strokeWidth={2} dot={false} />
         </LineChart>
