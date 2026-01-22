@@ -41,8 +41,6 @@ function CustomTooltip({ active, payload, label }: any) {
       <div>Busy wyjeżdżające: {row.busesOut} </div>
       <div>Motocykle wjeżdżające: {row.motorcyclesIn} </div>
       <div>Motocykle wyjeżdżające: {row.motorcyclesOut} </div>
-      {/* <div>Max prędkość: {row.maxSpeed} km/h</div> */}
-      {/* <div>Kamera: {row.camera}</div> */}
     </div>
   );
 }
