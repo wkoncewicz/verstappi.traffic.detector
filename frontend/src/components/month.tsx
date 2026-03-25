@@ -15,7 +15,7 @@ export default function Month(){
     function goToDay(day:string){
       router.push(`/analysis/${params.year}/${params.month}/${day}`)
     }
-    const url = `https://verstappi.pl:31514/api/traffic`
+    const url = "http://localhost:30300/traffic"
       useEffect(()=>{
       const load = async() =>{
         try{

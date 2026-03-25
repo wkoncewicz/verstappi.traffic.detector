@@ -10,7 +10,7 @@ import HlsPlayer from "./HlsPlayer";
 export default function Year(){  
     const params = useParams<{year:string}>();
     const router = useRouter();
-    const url = `https://verstappi.pl:31514/api/traffic`
+    const url = 'http://localhost:30300/traffic'
     const [data, setData] = useState<any[]>([]);
     const [months, setMonths] = useState<string[]>([]);
     useEffect(()=>{

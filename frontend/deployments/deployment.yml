@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: underwoodsteam/prod-frontend:latest
+          image: underwoodsteam/dev-frontend:latest
           ports:
             - containerPort: 3000
           env:

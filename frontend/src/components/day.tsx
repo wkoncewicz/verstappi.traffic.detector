@@ -11,7 +11,7 @@ export default function Day(){
     const params = useParams<{year:string,month:string,day:string}>();
     const router = useRouter();
     const [data,setData] = useState<any[]>([]);
-    const url = `https://verstappi.pl:31514/api/traffic`
+    const url = `http://localhost:30300/traffic`
     useEffect(()=>{
       const load = async() =>{
         try{
