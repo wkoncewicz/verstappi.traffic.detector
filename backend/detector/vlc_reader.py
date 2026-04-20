@@ -20,8 +20,8 @@ class VLCStreamReader:
         url,
         width=1280,
         height=720,
-        cache_ms=2500,    
-        interval=0.03,
+        cache_ms=2500,
+        interval=0.05,
         deque_size=5,
         black_threshold=10,   # mean brightness below this = considered black
     ):
@@ -53,16 +53,6 @@ class VLCStreamReader:
             self.instance = vlc.Instance(args)
         except TypeError:
             self.instance = vlc.Instance(*args)
-
-        # if self.instance is None:
-        #     print("VLC instance creation failed with full args, trying minimal args...")
-        #     try:
-        #         self.instance = vlc.Instance("--no-xlib")
-        #     except:
-        #         self.instance = vlc.Instance()
-        
-        # if self.instance is None:
-        #     raise RuntimeError("Failed to create VLC instance. Check VLC installation and arguments.")
 
         self.player = self.instance.media_player_new()
         media = self.instance.media_new(self.url)
@@ -97,6 +87,7 @@ class VLCStreamReader:
                                 # push non-black frames into deque
                                 self._frames_deque.append(img.copy())
             except Exception as e:
+                # don't spam — print occasional errors
                 print("VLCStreamReader snapshot error:", e)
             time.sleep(self.interval)
 
