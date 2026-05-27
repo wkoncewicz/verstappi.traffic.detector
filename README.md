@@ -415,14 +415,6 @@ def post_traffic():
 
 ---
 
-### `GET /traffic/{year}`
-
-Dane roczne zagregowane według miesięcy.
-
-**Nagłówki:** `Authorization: Bearer <keycloak_token>`
-
----
-
 ### `GET /traffic/{year}/{month}/{day}`
 
 Surowe dane dla konkretnego dnia z rozdzielczością 10 minut. **Backend:** odczytuje z `traffic` collection.
