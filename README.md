@@ -87,11 +87,11 @@ Pojazd wyjeżdżający (Out): poprzednia pozycja y > lane_mid_y > aktualna y
 
 Każdy track_id jest rejestrowany tylko raz, aby uniknąć wielokrotnego liczenia tego samego pojazdu. Zliczanie odbywa się wyłącznie dla `mid_x > max_x` (500 px), co eliminuje pojazdy daleko od kamery.
 
-```
+```python
 results = model.track(frame, persist=True, classes=[2,3,5,7], conf=0.3, verbose=False)
 ```
 
-```
+```python
 mid_x, mid_y = (x1+x2)//2, (y1+y2)//2
 
 if track_id in last_position and cls in allowed and mid_x > max_x:
@@ -366,7 +366,7 @@ X-Detector-Token: <DETECTOR_TOKEN>
 Content-Type: application/json
 ```
 
-**Ciało żądania:**
+**Body:**
 
 ```json
 {
@@ -472,17 +472,17 @@ Dane miesięczne zagregowane według dni.
 }
 ```
 
-### `GET /traffic/{year}/{month}/{day}`
+### `GET /traffic/{year}`
 
-Surowe dane dla konkretnego dnia z rozdzielczością 10 minut.
+Dane roczne zagregowane według miesięcy.
 
 **Przykładowa odpowiedź:**
 
 ```json
 {
   "data": {
-    "2026-04-15T08:00:00": { "timeStamp": "2026-04-15T08:00:00", "carsIn": 12, ... },
-    "2026-04-15T08:10:00": { "timeStamp": "2026-04-15T08:10:00", "carsIn": 9, ... }
+    "01": { "carsIn": 1500, "carsOut": 1420, ... },
+    "04": { "carsIn": 2100, "carsOut": 2050, ... }
   }
 }
 ```
@@ -538,8 +538,6 @@ export function BasicChart({ data }: { data: any[] }) {
   );
 }
 ```
-
-**Dane:** `[{ name: "08:00", in: 12, out: 8, ... }, ...]`
 
 ---
 
@@ -685,7 +683,7 @@ docker build -t underwoodsteam/dev-detector:latest backend/detector/
 
 ---
 
-## 10. Stos technologiczny
+## 10. Tech stack
 
 | Warstwa           | Technologia                  | Wersja              |
 | ----------------- | ---------------------------- | ------------------- |
