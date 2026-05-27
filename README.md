@@ -18,6 +18,8 @@
 4. [Model YOLOv8 — opis i warianty](#4-model-yolov8--opis-i-warianty)
 5. [Modele danych (MongoDB)](#5-modele-danych-mongodb)
 6. [API — dokumentacja endpointów](#6-api--dokumentacja-endpointów)
+   - [HLS Player (hls.js)](#61-frontend--hls-player-hlsjs)
+   - [Wykresy (Recharts)](#62-frontend--wykresy-recharts)
 7. [Wdrożenie na Kubernetes](#7-wdrożenie-na-kubernetes)
 8. [Przewodnik dewelopera](#8-przewodnik-dewelopera)
 9. [Zmienne środowiskowe](#9-zmienne-środowiskowe)
@@ -69,10 +71,10 @@ Detektor to autonomiczny proces Pythona odpowiedzialny za:
 
 **Czytniki strumienia:**
 
-| Czytnik | Klasa | Opis |
-|---|---|---|
-| VLC | `VLCStreamReader` | Pobiera klatki snapchotami przez `libvlc`; odporny na przerwy w strumieniu; utrzymuje deque ostatnich N poprawnych klatek |
-| FFmpeg | `FFmpegStreamReader` | Rura `stdout` z procesu `ffmpeg`; niższe opóźnienie; wymaga obecności `ffmpeg` w `$PATH` |
+| Czytnik | Klasa                | Opis                                                                                                                      |
+| ------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| VLC     | `VLCStreamReader`    | Pobiera klatki snapchotami przez `libvlc`; odporny na przerwy w strumieniu; utrzymuje deque ostatnich N poprawnych klatek |
+| FFmpeg  | `FFmpegStreamReader` | Pipe `stdout` z procesu `ffmpeg`; niższe opóźnienie; wymaga obecności `ffmpeg` w `$PATH`                                  |
 
 **Logika zliczania pojazdów:**
 
@@ -85,16 +87,40 @@ Pojazd wyjeżdżający (Out): poprzednia pozycja y > lane_mid_y > aktualna y
 
 Każdy track_id jest rejestrowany tylko raz, aby uniknąć wielokrotnego liczenia tego samego pojazdu. Zliczanie odbywa się wyłącznie dla `mid_x > max_x` (500 px), co eliminuje pojazdy daleko od kamery.
 
+```python
+results = model.track(frame, persist=True, classes=[2,3,5,7], conf=0.3, verbose=False)
+```
+
+```python
+mid_x, mid_y = (x1+x2)//2, (y1+y2)//2
+
+if track_id in last_position and cls in allowed and mid_x > max_x:
+  last_x, last_y = last_position[track_id]
+
+if mid_y > lane_mid_y > last_y:
+  if track_id not in vehicles[vehicleIds_key]:
+    vehicles[vehicleIn_key] += 1
+    vehicles[vehicleIds_key].add(track_id)
+
+    elif mid_y < lane_mid_y < last_y:
+      if track_id not in vehicles[vehicleIds_key]:
+        vehicles[vehicleOut_key] += 1
+        vehicles[vehicleIds_key].add(track_id)
+
+        last_position[track_id] = (mid_x, mid_y)
+```
+
 **Klasy COCO używane przez detektor:**
 
-| ID klasy COCO | Typ pojazdu |
-|---|---|
-| 2 | car (samochód) |
-| 3 | motorcycle (motocykl) |
-| 5 | bus (autobus) |
-| 7 | truck (ciężarówka) |
+| ID klasy COCO | Typ pojazdu           |
+| ------------- | --------------------- |
+| 2             | car (samochód)        |
+| 3             | motorcycle (motocykl) |
+| 5             | bus (autobus)         |
+| 7             | truck (ciężarówka)    |
 
 **Zależności Pythona (`detector/requirements.txt`):**
+
 ```
 ultralytics==8.3.228
 numpy==2.2.6
@@ -128,25 +154,25 @@ Każda operacja jest logowana do kolekcji MongoDB z unikalnym identyfikatorem tr
 
 Aplikacja webowa z następującymi widokami:
 
-| Ścieżka | Widok | Opis |
-|---|---|---|
-| `/` | `Main` | Strona główna — przekierowanie, jeśli zalogowany |
-| `/logged-user` | `LoggedUser` | Lista dostępnych lat, podgląd streamu |
-| `/analysis/[year]` | `Year` | Wykres roczny + kafelki miesięcy |
-| `/analysis/[year]/[month]` | `Month` | Wykres miesięczny + kafelki dni |
-| `/analysis/[year]/[month]/[day]` | `Day` | Wykres dzienny (10-min interwały) |
-| `/help` | `Help` | Strona pomocy |
+| Ścieżka                          | Widok        | Opis                                             |
+| -------------------------------- | ------------ | ------------------------------------------------ |
+| `/`                              | `Main`       | Strona główna — przekierowanie, jeśli zalogowany |
+| `/logged-user`                   | `LoggedUser` | Lista dostępnych lat, podgląd streamu            |
+| `/analysis/[year]`               | `Year`       | Wykres roczny + kafelki miesięcy                 |
+| `/analysis/[year]/[month]`       | `Month`      | Wykres miesięczny + kafelki dni                  |
+| `/analysis/[year]/[month]/[day]` | `Day`        | Wykres dzienny (10-min interwały)                |
+| `/help`                          | `Help`       | Strona pomocy                                    |
 
 **Kluczowe biblioteki:**
 
-| Biblioteka | Wersja | Zastosowanie |
-|---|---|---|
-| `next` | 16.1.1 | Framework SSR/CSR |
-| `react` | 19.2.3 | UI |
-| `keycloak-js` | 26.2.1 | Autoryzacja OIDC |
-| `hls.js` | 1.6.15 | Odtwarzacz HLS (fallback dla browsers bez natywnego HLS) |
-| `recharts` | 3.6.0 | Wykresy liniowe |
-| `axios` | 1.13.2 | HTTP client |
+| Biblioteka    | Wersja | Zastosowanie                                             |
+| ------------- | ------ | -------------------------------------------------------- |
+| `next`        | 16.1.1 | Framework SSR/CSR                                        |
+| `react`       | 19.2.3 | UI                                                       |
+| `keycloak-js` | 26.2.1 | Autoryzacja OIDC                                         |
+| `hls.js`      | 1.6.15 | Odtwarzacz HLS (fallback dla browsers bez natywnego HLS) |
+| `recharts`    | 3.6.0  | Wykresy liniowe                                          |
+| `axios`       | 1.13.2 | HTTP client                                              |
 
 **Autoryzacja Keycloak:**
 
@@ -198,11 +224,11 @@ Keycloak pełni rolę Identity Provider (IdP) zgodnego z protokołem OIDC/OAuth2
 
 NGINX Ingress Controller kieruje ruch przychodzący na domenę `verstappi.pl`:
 
-| Ścieżka | Serwis | Port |
-|---|---|---|
-| `/api/(.*)` | `backend-service` | 5000 |
+| Ścieżka          | Serwis             | Port |
+| ---------------- | ------------------ | ---- |
+| `/api/(.*)`      | `backend-service`  | 5000 |
 | `/keycloak/(.*)` | `keycloak-service` | 8080 |
-| `/(.*)` | `frontend-service` | 3000 |
+| `/(.*)`          | `frontend-service` | 3000 |
 
 Certyfikat TLS dla domeny `verstappi.pl` jest automatycznie wystawiany i odnawiany przez **cert-manager** z użyciem ClusterIssuer `letsencrypt-prod`.
 
@@ -215,6 +241,7 @@ Certyfikat TLS dla domeny `verstappi.pl` jest automatycznie wystawiany i odnawia
 **YOLO** (You Only Look Once) to rodzina modeli do detekcji obiektów w czasie rzeczywistym. W odróżnieniu od podejść dwuetapowych (np. R-CNN), YOLO wykonuje detekcję w jednym przejściu przez sieć neuronową, co zapewnia bardzo wysoką szybkość działania przy zachowaniu dobrej dokładności.
 
 **YOLOv8** (Ultralytics, 2023) to ósma generacja architektury, wprowadzająca:
+
 - nową głowicę detekcyjną **anchor-free** (bez predefiniowanych kotwic)
 - modularne bloki **C2f** (Cross Stage Partial with 2 bottlenecks)
 - ujednolicone API dla detekcji, segmentacji, klasyfikacji i śledzenia obiektów
@@ -224,40 +251,45 @@ Certyfikat TLS dla domeny `verstappi.pl` jest automatycznie wystawiany i odnawia
 
 Ultralytics oferuje pięć rozmiarów modelu o rosnącej złożoności:
 
-| Wariant | Plik | Parametry | GFLOPs | mAP50-95 (COCO) | Prędkość (A100, ms) |
-|---|---|---|---|---|---|
-| **Nano** | `yolov8n.pt` | ~3.2 M | ~8.7 | 37.3 | ~0.99 |
-| **Small** | `yolov8s.pt` | ~11.2 M | ~28.6 | 44.9 | ~1.20 |
-| **Medium** | `yolov8m.pt` | ~25.9 M | ~78.9 | 50.2 | ~1.83 |
-| **Large** | `yolov8l.pt` | ~43.7 M | ~165.2 | 52.9 | ~2.39 |
-| **XLarge** | `yolov8x.pt` | ~68.2 M | ~257.8 | 53.9 | ~3.53 |
+| Wariant    | Plik         | Parametry | GFLOPs | mAP50-95 (COCO) | Prędkość (A100, ms) |
+| ---------- | ------------ | --------- | ------ | --------------- | ------------------- |
+| **Nano**   | `yolov8n.pt` | ~3.2 M    | ~8.7   | 37.3            | ~0.99               |
+| **Small**  | `yolov8s.pt` | ~11.2 M   | ~28.6  | 44.9            | ~1.20               |
+| **Medium** | `yolov8m.pt` | ~25.9 M   | ~78.9  | 50.2            | ~1.83               |
+| **Large**  | `yolov8l.pt` | ~43.7 M   | ~165.2 | 52.9            | ~2.39               |
+| **XLarge** | `yolov8x.pt` | ~68.2 M   | ~257.8 | 53.9            | ~3.53               |
 
 > Wartości mAP i prędkości podane dla obrazów 640×640 na GPU NVIDIA A100. Wyniki mogą się różnić w zależności od sprzętu i danych.
 
 ### Szczegółowe porównanie
 
 **YOLOv8n (Nano)**
+
 - Najmniejszy i najszybszy wariant, dedykowany do urządzeń brzegowych (edge devices), mikrokontrolerów, Raspberry Pi
 - Niska dokładność przy małych obiektach i w trudnych warunkach oświetleniowych
 - Idealny gdy zasoby obliczeniowe są krytycznie ograniczone
 
 **YOLOv8s (Small)**
+
 - Dobry kompromis dla urządzeń mobilnych i embedded Linux
 - Znacząca poprawa dokładności względem `n` przy umiarkowanym wzroście zużycia zasobów
 - Nadaje się do prostych scenariuszy nadzoru wideo w czasie rzeczywistym na CPU
 
 **YOLOv8m (Medium) ← używany w tym projekcie**
+
 - Wybrany do projektu Verstappi.pl jako optymalny balans szybkość/dokładność na GPU
 - Dobrze wykrywa pojazdy różnych rozmiarów; radzi sobie z nakładaniem się obiektów
 - Wymagane GPU z minimum ~4 GB VRAM do płynnego śledzenia 25 FPS
 - `conf=0.3` — próg pewności detekcji ustawiony empirycznie
 
 **YOLOv8l (Large)**
+
 - Wysoka dokładność przy trudnych scenariuszach (tłum pojazdów, mgła, noc)
 - Znacznie wyższe wymagania obliczeniowe; potrzebne GPU klasy ~8 GB VRAM
 - Zalecany gdy dokładność jest ważniejsza niż szybkość i dostępny jest mocny hardware
 
 **YOLOv8x (XLarge)**
+
 - Największy i najdokładniejszy wariant — zbliżony do state-of-the-art na benchmarkach COCO
 - Przeznaczony do systemów off-line lub batch processing
 - Czas inferencji ~3.5× dłuższy niż `m`; intensywne użycie VRAM (10+ GB)
@@ -266,6 +298,7 @@ Ultralytics oferuje pięć rozmiarów modelu o rosnącej złożoności:
 ### Dlaczego YOLOv8m dla tego projektu?
 
 Projekt przetwarza strumień HLS z kamery drogowej (docelowo ~25 FPS). Model musi:
+
 1. Śledzić pojazdy między klatkami (persist tracking)
 2. Klasyfikować 4 klasy obiektów (2, 3, 5, 7 z COCO)
 3. Działać w sposób ciągły bez degradacji pamięci
@@ -324,15 +357,17 @@ Bazowy URL: `https://verstappi.pl:31514/api`
 
 ### `POST /traffic`
 
-Zapis nowego 10-minutowego odczytu z detektora.
+Zapis nowego 10-minutowego odczytu z detektora. **Backend:** zapisuje do `traffic` collection w MongoDB.
 
 **Nagłówki:**
+
 ```
 X-Detector-Token: <DETECTOR_TOKEN>
 Content-Type: application/json
 ```
 
-**Ciało żądania:**
+**Body:**
+
 ```json
 {
   "timeStamp": "2026-04-15T14:20:00",
@@ -347,13 +382,33 @@ Content-Type: application/json
 }
 ```
 
+**Code Backend (zapis):**
+
+```python
+@app.route('/traffic', methods=['POST'])
+def post_traffic():
+    token = request.headers.get("X-Detector-Token")
+    if token != os.getenv("DETECTOR_TOKEN"):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    payload = request.get_json()
+    traffic = Traffic(
+        time=datetime.fromisoformat(payload["timeStamp"]),
+        carsIn=int(payload["carsIn"]),
+        carsOut=int(payload["carsOut"]),
+        # ...
+    )
+    traffic.save()  # MongoDB
+    return jsonify({"status": "ok"}), 201
+```
+
 **Odpowiedzi:**
 
-| Kod | Opis |
-|---|---|
-| `201` | Dane zapisane pomyślnie |
-| `400` | Brakujące wymagane pola |
-| `401` | Nieprawidłowy token |
+| Kod   | Opis                             |
+| ----- | -------------------------------- |
+| `201` | Dane zapisane pomyślnie          |
+| `400` | Brakujące wymagane pola          |
+| `401` | Nieprawidłowy token              |
 | `500` | Błąd serwera / brak konfiguracji |
 
 > Jeśli `timeStamp` wskazuje na północ (`00:00:00`), backend automatycznie tworzy agregat dobowy dla poprzedniego dnia.
@@ -366,7 +421,31 @@ Dane roczne zagregowane według miesięcy.
 
 **Nagłówki:** `Authorization: Bearer <keycloak_token>`
 
-**Przykładowa odpowiedź:**
+---
+
+### `GET /traffic/{year}/{month}/{day}`
+
+Surowe dane dla konkretnego dnia z rozdzielczością 10 minut. **Backend:** odczytuje z `traffic` collection.
+
+**Code Backend (odczyt):**
+
+```python
+@app.route('/traffic/<year>/<month>/<day>', methods=['GET'])
+def get_traffic_day(year, month, day):
+    start_time = datetime(int(year), int(month), int(day))
+    end_time = start_time + timedelta(days=1)
+
+    data = Traffic.objects(
+        time__gte=start_time,
+        time__lt=end_time
+    )
+
+    result = {entry.time.isoformat(): {...} for entry in data}
+    return jsonify({"data": result}), 200
+```
+
+**Odpowiedź:**
+
 ```json
 {
   "data": {
@@ -383,6 +462,7 @@ Dane roczne zagregowane według miesięcy.
 Dane miesięczne zagregowane według dni.
 
 **Przykładowa odpowiedź:**
+
 ```json
 {
   "data": {
@@ -392,19 +472,70 @@ Dane miesięczne zagregowane według dni.
 }
 ```
 
----
+### `GET /traffic/{year}`
 
-### `GET /traffic/{year}/{month}/{day}`
-
-Surowe dane dla konkretnego dnia z rozdzielczością 10 minut.
+Dane roczne zagregowane według miesięcy.
 
 **Przykładowa odpowiedź:**
+
 ```json
 {
   "data": {
-    "2026-04-15T08:00:00": { "timeStamp": "2026-04-15T08:00:00", "carsIn": 12, ... },
-    "2026-04-15T08:10:00": { "timeStamp": "2026-04-15T08:10:00", "carsIn": 9, ... }
+    "01": { "carsIn": 1500, "carsOut": 1420, ... },
+    "04": { "carsIn": 2100, "carsOut": 2050, ... }
   }
+}
+```
+
+## 6.1 Frontend — HLS Player (hls.js)
+
+**Plik:** [frontend/src/components/HlsPlayer.tsx](frontend/src/components/HlsPlayer.tsx)
+
+```typescript
+import Hls from "hls.js";
+
+export function HlsPlayer({ src }: { src: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(src);
+      hls.attachMedia(video);
+      return () => hls.destroy();
+    } else if (video?.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = src; // Safari/iOS
+    }
+  }, [src]);
+
+  return <video ref={videoRef} controls style={{ width: "100%" }} />;
+}
+```
+
+---
+
+## 6.2 Frontend — Wykresy (Recharts)
+
+**Plik:** [frontend/src/components/testChart.tsx](frontend/src/components/testChart.tsx)
+
+```typescript
+import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend, ResponsiveContainer } from "recharts";
+
+export function BasicChart({ data }: { data: any[] }) {
+  return (
+    <ResponsiveContainer width="100%" height={600}>
+      <LineChart data={data}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Line dataKey="in" stroke="#ef4444" strokeWidth={2} name="Wjeżdżające" />
+        <Line dataKey="out" stroke="#22c55e" strokeWidth={2} name="Wyjeżdżające" />
+      </LineChart>
+    </ResponsiveContainer>
+  );
 }
 ```
 
@@ -462,17 +593,20 @@ kubectl rollout restart deployment frontend-deployment
 ### Sekrety Kubernetes
 
 **`mongo-auth`** (database/deployments/secret.yml):
+
 ```
 MONGO_INITDB_ROOT_USERNAME
 MONGO_INITDB_ROOT_PASSWORD
 ```
 
 **`backend-auth`** (backend/deployments/secret.yml):
+
 ```
 DETECTOR_TOKEN
 ```
 
 **`backend-app-config`** (configMap):
+
 ```
 DB_HOST
 ```
@@ -540,29 +674,29 @@ docker build -t underwoodsteam/dev-detector:latest backend/detector/
 
 ## 9. Zmienne środowiskowe
 
-| Zmienna | Serwis | Opis |
-|---|---|---|
-| `DB_HOST` | backend, detector | Hostname MongoDB (= nazwa serwisu k8s) |
-| `DB_USER` | backend, detector | Użytkownik MongoDB |
-| `DB_PASSWORD` | backend, detector | Hasło MongoDB |
-| `DETECTOR_TOKEN` | backend | Shared secret dla weryfikacji żądań z detektora |
+| Zmienna          | Serwis            | Opis                                            |
+| ---------------- | ----------------- | ----------------------------------------------- |
+| `DB_HOST`        | backend, detector | Hostname MongoDB (= nazwa serwisu k8s)          |
+| `DB_USER`        | backend, detector | Użytkownik MongoDB                              |
+| `DB_PASSWORD`    | backend, detector | Hasło MongoDB                                   |
+| `DETECTOR_TOKEN` | backend           | Shared secret dla weryfikacji żądań z detektora |
 
 ---
 
-## 10. Stos technologiczny
+## 10. Tech stack
 
-| Warstwa | Technologia | Wersja |
-|---|---|---|
-| Detekcja obiektów | Ultralytics YOLOv8 | 8.3.228 |
-| Odczyt strumienia | python-vlc / FFmpeg | 3.0.21203 / system |
-| Backend API | Flask + MongoEngine | — |
-| Baza danych | MongoDB | 7.0 |
-| Frontend | Next.js + React + TypeScript | 16.1.1 / 19.2.3 / 5 |
-| Wykresy | Recharts | 3.6.0 |
-| HLS Player | hls.js | 1.6.15 |
-| Autoryzacja | Keycloak | 26.4.6 |
-| Konteneryzacja | Docker | — |
-| Orkiestracja | Kubernetes | — |
-| Ingress | NGINX Ingress Controller | — |
-| TLS | cert-manager + Let's Encrypt | — |
-| Hosting | OVH VPS | — |
+| Warstwa           | Technologia                  | Wersja              |
+| ----------------- | ---------------------------- | ------------------- |
+| Detekcja obiektów | Ultralytics YOLOv8           | 8.3.228             |
+| Odczyt strumienia | python-vlc / FFmpeg          | 3.0.21203 / system  |
+| Backend API       | Flask + MongoEngine          | —                   |
+| Baza danych       | MongoDB                      | 7.0                 |
+| Frontend          | Next.js + React + TypeScript | 16.1.1 / 19.2.3 / 5 |
+| Wykresy           | Recharts                     | 3.6.0               |
+| HLS Player        | hls.js                       | 1.6.15              |
+| Autoryzacja       | Keycloak                     | 26.4.6              |
+| Konteneryzacja    | Docker                       | —                   |
+| Orkiestracja      | Kubernetes                   | —                   |
+| Ingress           | NGINX Ingress Controller     | —                   |
+| TLS               | cert-manager + Let's Encrypt | —                   |
+| Hosting           | OVH VPS                      | —                   |
